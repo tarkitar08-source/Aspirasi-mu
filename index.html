@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aspirasi Classmeet MTsN 1 Kota Kediri - Portal Pengumpulan & Rekap</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .glass-card {
+            background: rgba(10, 25, 47, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #07111e; }
+        ::-webkit-scrollbar-thumb { background: #1e3a8a; border-radius: 3px; }
+    </style>
+</head>
+<body class="bg-blue-950 text-slate-100 font-sans min-h-screen flex flex-col justify-between selection:bg-blue-600 selection:text-white">
+
+    <!-- HEADER / NAVBAR -->
+    <header class="w-full py-5 px-6 border-b border-blue-900/60 bg-blue-950/80 sticky top-0 z-50 backdrop-blur-md">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 rounded-xl bg-white text-blue-950 flex items-center justify-center font-black text-lg shadow-lg">
+                    🏆
+                </div>
+                <div>
+                    <h1 class="font-extrabold text-base tracking-wide text-white">CLASSMEET OSIM</h1>
+                    <p class="text-[10px] text-blue-300">Portal Aspirasi & Ide Kegiatan</p>
+                </div>
+            </div>
+            <div>
+                <button onclick="openAdminModal()" class="px-4 py-2 rounded-xl bg-blue-900/60 hover:bg-blue-900 border border-blue-700/60 text-xs font-bold text-blue-200 transition shadow-md flex items-center space-x-1.5">
+                    <span>🔒</span>
+                    <span>Akses Data Pengurus</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- KONTEN UTAMA: FORM KIRIM ASPIRASI CLASSMEET -->
+    <main class="flex-grow max-w-2xl w-full mx-auto px-4 py-12">
+        <div class="text-center mb-10">
+            <span class="px-3.5 py-1 rounded-full bg-blue-900/60 border border-blue-700/60 text-blue-300 text-xs font-semibold uppercase tracking-wider">
+                Periode 2026/2027
+            </span>
+            <h2 class="mt-4 text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+                Kirimkan Aspirasi Mu untuk Classmeet Sekolah Kita!
+            </h2>
+            <p class="mt-3 text-slate-300 text-sm max-w-lg mx-auto leading-relaxed">
+                Suarakan aspirasimu agar classmeet sekolah kita makin seru dan meriah!
+            </p>
+        </div>
+
+        <div class="glass-card p-6 sm:p-8 rounded-3xl shadow-2xl relative overflow-hidden">
+            <div class="absolute -right-10 -top-10 w-40 h-40 bg-blue-600/10 rounded-full blur-2xl pointer-events-none"></div>
+
+            <form id="classmeet-form" class="space-y-5 relative z-10">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Nama & Kelas Pengirim</label>
+                    <input type="text" id="cm-nama" required placeholder="Contoh: Rian Pratama / 8A" class="w-full px-4 py-3 rounded-xl bg-blue-950/80 border border-blue-800/80 text-white placeholder-slate-500 focus:outline-none focus:border-white text-sm transition">
+                </div>
+
+               
+
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Detail Usulan / Alasan</label>
+                    <textarea id="cm-pesan" rows="4" required placeholder="Tuliskan aspirasimu dengan jelas..." class="w-full px-4 py-3 rounded-xl bg-blue-950/80 border border-blue-800/80 text-white placeholder-slate-500 focus:outline-none focus:border-white text-sm transition resize-none"></textarea>
+                </div>
+
+                <button type="submit" class="w-full py-3.5 rounded-xl bg-white text-blue-950 font-extrabold hover:bg-blue-100 transition shadow-lg text-sm tracking-wide">
+                    Kirim Aspirasi Anda Pada Classmeet Kali Ini
+                </button>
+            </form>
+
+            <div id="cm-success" class="hidden mt-4 p-4 rounded-xl bg-emerald-600/20 border border-emerald-500/80 text-emerald-300 text-center text-xs font-bold tracking-wide">
+                ✨ Terima kasih! Aspirasi classmeet kamu berhasil tersimpan ke sistem database pengurus.
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="py-6 text-center text-xs text-slate-400 border-t border-blue-900/40">
+        <p>&copy; 2026 OSIM. Dirancang khusus untuk efisiensi event sekolah.</p>
+    </footer>
+
+    <!-- MODAL MASUKKAN KODE AKSES PENGURUS (SECURITY CODE) -->
+    <div id="admin-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-blue-950/80 backdrop-blur-md hidden px-4">
+        <div class="glass-card p-6 sm:p-8 rounded-3xl max-w-md w-full shadow-2xl border border-blue-700/50">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-bold text-white">🔐 Autorisasi Pengurus</h3>
+                <button onclick="closeAdminModal()" class="text-slate-400 hover:text-white text-sm font-bold">✕</button>
+            </div>
+            <p class="text-slate-300 text-xs mb-5">
+                Masukkan **Kode Rahasia Pengurus** untuk membuka halaman rekap data dan mengekspornya ke format Excel (.xlsx).
+            </p>
+            <form id="code-form" class="space-y-4">
+                <input type="password" id="admin-code-input" required placeholder="Masukkan kode rahasia..." class="w-full px-4 py-3 rounded-xl bg-blue-950 border border-blue-800 text-white placeholder-slate-500 focus:outline-none focus:border-white text-sm">
+                <div id="code-error" class="hidden text-red-400 text-xs font-semibold">⚠️ Kode rahasia salah! Coba lagi (Hint: 12345)</div>
+                <button type="submit" class="w-full py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold transition text-sm">
+                    Verifikasi Kode
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL PANEL DASHBOARD & EKSPOR EXCEL (HANYA MUNCUL JIKA KODE BENAR) -->
+    <div id="dashboard-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-blue-950/90 backdrop-blur-lg hidden p-4 overflow-y-auto">
+        <div class="bg-blue-900/50 border border-blue-700/60 p-6 sm:p-8 rounded-3xl max-w-4xl w-full shadow-2xl my-auto">
+            <div class="flex justify-between items-center pb-4 border-b border-blue-800/80 mb-6">
+                <div>
+                    <span class="px-2.5 py-1 rounded bg-emerald-500/20 text-emerald-300 text-[10px] font-bold uppercase">Akses Diterima 🔓</span>
+                    <h3 class="text-xl font-extrabold text-white mt-1">Panel Rekapitulasi Aspirasi Classmeet</h3>
+                </div>
+                <button onclick="closeDashboardModal()" class="px-3 py-1.5 rounded-xl bg-blue-950 hover:bg-red-600/80 text-slate-300 hover:text-white text-xs font-bold transition">Tutup ✕</button>
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                <p class="text-slate-300 text-xs">Total aspirasi masuk dari siswa secara real-time:</p>
+                <button onclick="exportToCSV()" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold transition text-xs flex items-center space-x-2 shadow-lg">
+                    <span>📊 Download / Ekspor ke Excel (.csv kompatibel)</span>
+                </button>
+            </div>
+
+            <div class="overflow-x-auto max-h-80 border border-blue-800/80 rounded-2xl bg-blue-950/80">
+                <table class="w-full text-left text-xs text-slate-200">
+                    <thead class="bg-blue-900/80 text-white uppercase text-[10px] tracking-wider">
+                        <tr>
+                            <th class="p-3">No</th>
+                            <th class="p-3">Nama & Kelas</th>
+                            <th class="p-3">Kategori</th>
+                            <th class="p-3">Usulan / Pesan</th>
+                            <th class="p-3">Tanggal</th>
+                            <th class="p-3 text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-table-body" class="divide-y divide-blue-900/60">
+                        <!-- Data aspirasi dirender via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT JAVASCRIPT MURNI -->
+    <script>
+        // Kode rahasia pengurus untuk membuka data (dapat diubah sesuai kebutuhan)
+        const SECRET_CODE = "12345";
+
+        // DOM Elements
+        const form = document.getElementById("classmeet-form");
+        const successMsg = document.getElementById("cm-success");
+        const adminModal = document.getElementById("admin-modal");
+        const dashboardModal = document.getElementById("dashboard-modal");
+        const codeForm = document.getElementById("code-form");
+        const codeInput = document.getElementById("admin-code-input");
+        const codeError = document.getElementById("code-error");
+
+        // 1. Simpan Aspirasi Classmeet ke LocalStorage
+        form.addEventListener("submit", (e) => {
+            e.preventDefault();
+            const nama = document.getElementById("cm-nama").value.trim();
+            const kategori = document.getElementById("cm-kategori").value;
+            const pesan = document.getElementById("cm-pesan").value.trim();
+            const tanggal = new Date().toLocaleDateString("id-ID", { day: 'numeric', month: 'short', year: 'numeric' });
+
+            const newItem = { nama, kategori, pesan, tanggal };
+            const list = JSON.parse(localStorage.getItem("osamasa_classmeet_aspirasi")) || [];
+            list.unshift(newItem);
+            localStorage.setItem("osamasa_classmeet_aspirasi", JSON.stringify(list));
+
+            form.reset();
+            successMsg.classList.remove("hidden");
+            setTimeout(() => successMsg.classList.add("hidden"), 4000);
+        });
+
+        // 2. Kontrol Modal Akses Pengurus
+        function openAdminModal() {
+            codeInput.value = "";
+            codeError.classList.add("hidden");
+            adminModal.classList.remove("hidden");
+        }
+        function closeAdminModal() {
+            adminModal.classList.add("hidden");
+        }
+        function closeDashboardModal() {
+            dashboardModal.classList.add("hidden");
+        }
+
+        // 3. Verifikasi Kode Rahasia
+        codeForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            if (codeInput.value.trim() === SECRET_CODE) {
+                adminModal.classList.add("hidden");
+                loadAdminTable();
+                dashboardModal.classList.remove("hidden");
+            } else {
+                codeError.classList.remove("hidden");
+            }
+        });
+
+        // 4. Muat Tabel Data di Dashboard Admin
+        function loadAdminTable() {
+            const tbody = document.getElementById("admin-table-body");
+            const list = JSON.parse(localStorage.getItem("osamasa_classmeet_aspirasi")) || [];
+            tbody.innerHTML = "";
+
+            if (list.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">Belum ada aspirasi classmeet yang masuk.</td></tr>`;
+                return;
+            }
+
+            list.forEach((item, index) => {
+                const tr = document.createElement("tr");
+                tr.className = "hover:bg-blue-900/30 transition";
+                tr.innerHTML = `
+                    <td class="p-3 text-center font-mono">${index + 1}</td>
+                    <td class="p-3 font-semibold text-white">${escapeHtml(item.nama)}</td>
+                    <td class="p-3 text-blue-300">${escapeHtml(item.kategori)}</td>
+                    <td class="p-3 text-slate-300 max-w-xs truncate">${escapeHtml(item.pesan)}</td>
+                    <td class="p-3 text-slate-400">${item.tanggal}</td>
+                    <td class="p-3 text-center">
+                        <button onclick="deleteAspirasi(${index})" class="px-2.5 py-1 rounded bg-red-600/20 hover:bg-red-600 text-red-300 hover:text-white transition text-[10px]">Hapus</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // 5. Hapus Data Aspirasi Satuan
+        window.deleteAspirasi = function(index) {
+            let list = JSON.parse(localStorage.getItem("osamasa_classmeet_aspirasi")) || [];
+            list.splice(index, 1);
+            localStorage.setItem("osamasa_classmeet_aspirasi", JSON.stringify(list));
+            loadAdminTable();
+        }
+
+        // 6. Ekspor Data ke File Excel/CSV langsung di Device Apa Pun
+        window.exportToCSV = function() {
+            const list = JSON.parse(localStorage.getItem("osamasa_classmeet_aspirasi")) || [];
+            if (list.length === 0) {
+                alert("Belum ada data untuk diekspor!");
+                return;
+            }
+
+            let csvContent = "\uFEFFNo,Nama / Kelas,Kategori,Usulan Aspirasi,Tanggal\n";
+            list.forEach((item, i) => {
+                let row = [
+                    i + 1,
+                    `"${item.nama.replace(/"/g, '""')}"`,
+                    `"${item.kategori.replace(/"/g, '""')}"`,
+                    `"${item.pesan.replace(/"/g, '""')}"`,
+                    `"${item.tanggal}"`
+                ];
+                csvContent += row.join(",") + "\n";
+            });
+
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.setAttribute("href", url);
+            a.setAttribute("download", "rekap_aspirasi_classmeet_osamasa.csv");
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+    </script>
+</body>
+</html>
